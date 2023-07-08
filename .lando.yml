@@ -1,0 +1,32 @@
+name: filament-erpsaas
+recipe: laravel
+config:
+  php: '8.1'
+  webroot: public
+services:
+  appserver:
+    build:
+      - composer install --optimize-autoloader --no-dev
+  pma:
+    type: phpmyadmin
+    hosts:
+      - database
+  node:
+    type: node:16
+    build:
+      - npm install
+      - npm run build
+tooling:
+  npm:
+    service: node
+  npx:
+    service: node
+  node:
+    service: node
+  gulp:
+    service: node
+  yarn:
+    service: node
+proxy:
+  pma:
+    - pma.filament-erpsaas.lndo.site
